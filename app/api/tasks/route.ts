@@ -129,7 +129,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     // Update by ID or title
-    const query = supabase
+    const query = supabaseServer
       .from('tasks')
       .update(updates);
 
