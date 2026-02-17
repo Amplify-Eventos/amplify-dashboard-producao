@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase-client';
+import { supabaseServer } from '@/lib/supabase-server';
 import { TaskStatus, TaskPriority } from '@/lib/supabase-client';
 
 // Force dynamic rendering - no caching
@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 
 // GET /api/tasks - Fetch all tasks grouped by status
 export async function GET() {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseServer
     .from('tasks')
     .select(`
       *,
@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
     // Find agent by name if owner is specified
     let assignedAgentId = null;
     if (body.owner) {
-      const { data: agent } = await supabase
+      const { data: agent } = await supabaseServer
         .from('agents')
         .select('id')
         .ilike('name', `%${body.owner}%`)
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const { error } = await supabase
+    const { error } = await supabaseServer
       .from('tasks')
       .insert({
         title: body.title,
@@ -165,7 +165,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'Task ID is required' }, { status: 400 });
     }
 
-    const { error } = await supabase
+    const { error } = await supabaseServer
       .from('tasks')
       .delete()
       .eq('id', taskId);
