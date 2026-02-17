@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase-client';
 import { TaskStatus, TaskPriority } from '@/lib/supabase-client';
 
+// Force dynamic rendering - no caching
+export const dynamic = 'force-dynamic';
+
 // GET /api/tasks - Fetch all tasks grouped by status
 export async function GET() {
   const { data, error } = await supabase

@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase-client';
 import { AgentStatus } from '@/lib/supabase-client';
 
+// Force dynamic rendering - no caching
+export const dynamic = 'force-dynamic';
+
 // GET /api/agents - Fetch all agents
 export async function GET() {
   const { data, error } = await supabase
